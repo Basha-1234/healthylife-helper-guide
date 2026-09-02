@@ -151,3 +151,40 @@
     color: var(--color-foreground);
   }
 }
+
+@theme inline {
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-size: 1.0625rem; /* >= 17px body text for readability */
+    line-height: 1.65;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+}
+
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+@utility shadow-lift {
+  box-shadow: var(--shadow-lift);
+}
