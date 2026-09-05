@@ -8,10 +8,10 @@ export function Navbar() {
 
   const items = [
     { to: "/", label: t.nav.home, Icon: Home, exact: true },
-    { to: "/topics", label: t.nav.topics, Icon: LayoutGrid },
-    { to: "/quiz", label: t.nav.quiz, Icon: HelpCircle },
-    { to: "/resources", label: t.nav.resources, Icon: BookOpen },
-    { to: "/contact", label: t.nav.contact, Icon: Phone },
+    { to: "/topics", label: t.nav.topics, Icon: LayoutGrid, exact: false },
+    { to: "/quiz", label: t.nav.quiz, Icon: HelpCircle, exact: false },
+    { to: "/resources", label: t.nav.resources, Icon: BookOpen, exact: false },
+    { to: "/contact", label: t.nav.contact, Icon: Phone, exact: false },
   ] as const;
 
   return (
