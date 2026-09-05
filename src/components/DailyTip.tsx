@@ -17,7 +17,7 @@ export function DailyTip() {
     return () => clearInterval(id);
   }, [t.tips.length]);
 
-  const tip = t.tips[index] ?? t.tips[0];
+  const tip = t.tips[index] ?? t.tips[0] ?? "";
 
   return (
     <section className="rounded-4xl border-2 border-accent/50 bg-accent/40 p-6 shadow-soft sm:p-8">
