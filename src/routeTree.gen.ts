@@ -14,6 +14,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as TopicsRouteImport } from './routes/topics'
+import { Route as TopicsIndexRouteImport } from './routes/topics.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,20 +41,26 @@ const TopicsRoute = TopicsRouteImport.update({
   path: '/topics',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TopicsIndexRoute = TopicsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TopicsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/quiz': typeof QuizRoute
   '/resources': typeof ResourcesRoute
-  '/topics': typeof TopicsRoute
+  '/topics': typeof TopicsRouteWithChildren
+  '/topics/': typeof TopicsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/quiz': typeof QuizRoute
   '/resources': typeof ResourcesRoute
-  '/topics': typeof TopicsRoute
+  '/topics': typeof TopicsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,14 +68,22 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/quiz': typeof QuizRoute
   '/resources': typeof ResourcesRoute
-  '/topics': typeof TopicsRoute
+  '/topics': typeof TopicsRouteWithChildren
+  '/topics/': typeof TopicsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/quiz' | '/resources' | '/topics'
+  fullPaths: '/' | '/contact' | '/quiz' | '/resources' | '/topics' | '/topics/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/contact' | '/quiz' | '/resources' | '/topics'
-  id: '__root__' | '/' | '/contact' | '/quiz' | '/resources' | '/topics'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact'
+    | '/quiz'
+    | '/resources'
+    | '/topics'
+    | '/topics/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,7 +91,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   QuizRoute: typeof QuizRoute
   ResourcesRoute: typeof ResourcesRoute
-  TopicsRoute: typeof TopicsRoute
+  TopicsRoute: typeof TopicsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -116,15 +131,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TopicsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/topics/': {
+      id: '/topics/'
+      path: '/'
+      fullPath: '/topics/'
+      preLoaderRoute: typeof TopicsIndexRouteImport
+      parentRoute: typeof TopicsRoute
+    }
   }
 }
+
+interface TopicsRouteChildren {
+  TopicsIndexRoute: typeof TopicsIndexRoute
+}
+
+const TopicsRouteChildren: TopicsRouteChildren = {
+  TopicsIndexRoute: TopicsIndexRoute,
+}
+
+const TopicsRouteWithChildren =
+  TopicsRoute._addFileChildren(TopicsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
   QuizRoute: QuizRoute,
   ResourcesRoute: ResourcesRoute,
-  TopicsRoute: TopicsRoute,
+  TopicsRoute: TopicsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
