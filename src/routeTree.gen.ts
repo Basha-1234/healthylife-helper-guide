@@ -15,6 +15,7 @@ import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as TopicsRouteImport } from './routes/topics'
 import { Route as TopicsIndexRouteImport } from './routes/topics.index'
+import { Route as TopicsTopicIdRouteImport } from './routes/topics.$topicId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,11 @@ const TopicsIndexRoute = TopicsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => TopicsRoute,
 } as any)
+const TopicsTopicIdRoute = TopicsTopicIdRouteImport.update({
+  id: '/$topicId',
+  path: '/$topicId',
+  getParentRoute: () => TopicsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/quiz': typeof QuizRoute
   '/resources': typeof ResourcesRoute
   '/topics': typeof TopicsRouteWithChildren
+  '/topics/$topicId': typeof TopicsTopicIdRoute
   '/topics/': typeof TopicsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/quiz': typeof QuizRoute
   '/resources': typeof ResourcesRoute
+  '/topics/$topicId': typeof TopicsTopicIdRoute
   '/topics': typeof TopicsIndexRoute
 }
 export interface FileRoutesById {
@@ -69,13 +77,21 @@ export interface FileRoutesById {
   '/quiz': typeof QuizRoute
   '/resources': typeof ResourcesRoute
   '/topics': typeof TopicsRouteWithChildren
+  '/topics/$topicId': typeof TopicsTopicIdRoute
   '/topics/': typeof TopicsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/quiz' | '/resources' | '/topics' | '/topics/'
+  fullPaths:
+    | '/'
+    | '/contact'
+    | '/quiz'
+    | '/resources'
+    | '/topics'
+    | '/topics/$topicId'
+    | '/topics/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/quiz' | '/resources' | '/topics'
+  to: '/' | '/contact' | '/quiz' | '/resources' | '/topics/$topicId' | '/topics'
   id:
     | '__root__'
     | '/'
@@ -83,6 +99,7 @@ export interface FileRouteTypes {
     | '/quiz'
     | '/resources'
     | '/topics'
+    | '/topics/$topicId'
     | '/topics/'
   fileRoutesById: FileRoutesById
 }
@@ -138,14 +155,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TopicsIndexRouteImport
       parentRoute: typeof TopicsRoute
     }
+    '/topics/$topicId': {
+      id: '/topics/$topicId'
+      path: '/$topicId'
+      fullPath: '/topics/$topicId'
+      preLoaderRoute: typeof TopicsTopicIdRouteImport
+      parentRoute: typeof TopicsRoute
+    }
   }
 }
 
 interface TopicsRouteChildren {
+  TopicsTopicIdRoute: typeof TopicsTopicIdRoute
   TopicsIndexRoute: typeof TopicsIndexRoute
 }
 
 const TopicsRouteChildren: TopicsRouteChildren = {
+  TopicsTopicIdRoute: TopicsTopicIdRoute,
   TopicsIndexRoute: TopicsIndexRoute,
 }
 
