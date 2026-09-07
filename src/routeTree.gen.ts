@@ -14,6 +14,8 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as TopicsRouteImport } from './routes/topics'
+import { Route as TopicsIndexRouteImport } from './routes/topics.index'
+import { Route as TopicsTopicIdRouteImport } from './routes/topics.$topicId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,20 +42,33 @@ const TopicsRoute = TopicsRouteImport.update({
   path: '/topics',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TopicsIndexRoute = TopicsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TopicsRoute,
+} as any)
+const TopicsTopicIdRoute = TopicsTopicIdRouteImport.update({
+  id: '/$topicId',
+  path: '/$topicId',
+  getParentRoute: () => TopicsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/quiz': typeof QuizRoute
   '/resources': typeof ResourcesRoute
-  '/topics': typeof TopicsRoute
+  '/topics': typeof TopicsRouteWithChildren
+  '/topics/$topicId': typeof TopicsTopicIdRoute
+  '/topics/': typeof TopicsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/quiz': typeof QuizRoute
   '/resources': typeof ResourcesRoute
-  '/topics': typeof TopicsRoute
+  '/topics/$topicId': typeof TopicsTopicIdRoute
+  '/topics': typeof TopicsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,14 +76,31 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/quiz': typeof QuizRoute
   '/resources': typeof ResourcesRoute
-  '/topics': typeof TopicsRoute
+  '/topics': typeof TopicsRouteWithChildren
+  '/topics/$topicId': typeof TopicsTopicIdRoute
+  '/topics/': typeof TopicsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/quiz' | '/resources' | '/topics'
+  fullPaths:
+    | '/'
+    | '/contact'
+    | '/quiz'
+    | '/resources'
+    | '/topics'
+    | '/topics/$topicId'
+    | '/topics/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/quiz' | '/resources' | '/topics'
-  id: '__root__' | '/' | '/contact' | '/quiz' | '/resources' | '/topics'
+  to: '/' | '/contact' | '/quiz' | '/resources' | '/topics/$topicId' | '/topics'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact'
+    | '/quiz'
+    | '/resources'
+    | '/topics'
+    | '/topics/$topicId'
+    | '/topics/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,7 +108,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   QuizRoute: typeof QuizRoute
   ResourcesRoute: typeof ResourcesRoute
-  TopicsRoute: typeof TopicsRoute
+  TopicsRoute: typeof TopicsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -116,15 +148,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TopicsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/topics/': {
+      id: '/topics/'
+      path: '/'
+      fullPath: '/topics/'
+      preLoaderRoute: typeof TopicsIndexRouteImport
+      parentRoute: typeof TopicsRoute
+    }
+    '/topics/$topicId': {
+      id: '/topics/$topicId'
+      path: '/$topicId'
+      fullPath: '/topics/$topicId'
+      preLoaderRoute: typeof TopicsTopicIdRouteImport
+      parentRoute: typeof TopicsRoute
+    }
   }
 }
+
+interface TopicsRouteChildren {
+  TopicsTopicIdRoute: typeof TopicsTopicIdRoute
+  TopicsIndexRoute: typeof TopicsIndexRoute
+}
+
+const TopicsRouteChildren: TopicsRouteChildren = {
+  TopicsTopicIdRoute: TopicsTopicIdRoute,
+  TopicsIndexRoute: TopicsIndexRoute,
+}
+
+const TopicsRouteWithChildren =
+  TopicsRoute._addFileChildren(TopicsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
   QuizRoute: QuizRoute,
   ResourcesRoute: ResourcesRoute,
-  TopicsRoute: TopicsRoute,
+  TopicsRoute: TopicsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
