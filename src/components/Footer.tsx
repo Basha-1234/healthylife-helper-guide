@@ -59,9 +59,8 @@ export function Footer() {
         </section>
       </div>
       <div className="border-t-2 border-border/70 px-4 py-5 text-center">
-        <p className="inline-flex items-center gap-2 text-base font-semibold text-muted-foreground">
-          <Heart className="size-5 text-accent-foreground" aria-hidden="true" />
-          {t.footer.credits}
+        <p className="text-base font-semibold text-muted-foreground">
+          {t.siteName} — {t.tagline}
         </p>
       </div>
     </footer>
