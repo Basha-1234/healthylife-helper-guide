@@ -16,7 +16,6 @@ import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as TopicsRouteImport } from './routes/topics'
 import { Route as TopicsIndexRouteImport } from './routes/topics.index'
 import { Route as TopicsTopicIdRouteImport } from './routes/topics.$topicId'
-import { Route as TopicsHygieneRouteImport } from './routes/topics.hygiene'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -53,11 +52,6 @@ const TopicsTopicIdRoute = TopicsTopicIdRouteImport.update({
   path: '/$topicId',
   getParentRoute: () => TopicsRoute,
 } as any)
-const TopicsHygieneRoute = TopicsHygieneRouteImport.update({
-  id: '/hygiene',
-  path: '/hygiene',
-  getParentRoute: () => TopicsRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,7 +60,6 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesRoute
   '/topics': typeof TopicsRouteWithChildren
   '/topics/$topicId': typeof TopicsTopicIdRoute
-  '/topics/hygiene': typeof TopicsHygieneRoute
   '/topics/': typeof TopicsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -75,7 +68,6 @@ export interface FileRoutesByTo {
   '/quiz': typeof QuizRoute
   '/resources': typeof ResourcesRoute
   '/topics/$topicId': typeof TopicsTopicIdRoute
-  '/topics/hygiene': typeof TopicsHygieneRoute
   '/topics': typeof TopicsIndexRoute
 }
 export interface FileRoutesById {
@@ -86,7 +78,6 @@ export interface FileRoutesById {
   '/resources': typeof ResourcesRoute
   '/topics': typeof TopicsRouteWithChildren
   '/topics/$topicId': typeof TopicsTopicIdRoute
-  '/topics/hygiene': typeof TopicsHygieneRoute
   '/topics/': typeof TopicsIndexRoute
 }
 export interface FileRouteTypes {
@@ -98,17 +89,9 @@ export interface FileRouteTypes {
     | '/resources'
     | '/topics'
     | '/topics/$topicId'
-    | '/topics/hygiene'
     | '/topics/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/contact'
-    | '/quiz'
-    | '/resources'
-    | '/topics/$topicId'
-    | '/topics/hygiene'
-    | '/topics'
+  to: '/' | '/contact' | '/quiz' | '/resources' | '/topics/$topicId' | '/topics'
   id:
     | '__root__'
     | '/'
@@ -117,7 +100,6 @@ export interface FileRouteTypes {
     | '/resources'
     | '/topics'
     | '/topics/$topicId'
-    | '/topics/hygiene'
     | '/topics/'
   fileRoutesById: FileRoutesById
 }
@@ -180,25 +162,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TopicsTopicIdRouteImport
       parentRoute: typeof TopicsRoute
     }
-    '/topics/hygiene': {
-      id: '/topics/hygiene'
-      path: '/hygiene'
-      fullPath: '/topics/hygiene'
-      preLoaderRoute: typeof TopicsHygieneRouteImport
-      parentRoute: typeof TopicsRoute
-    }
   }
 }
 
 interface TopicsRouteChildren {
   TopicsTopicIdRoute: typeof TopicsTopicIdRoute
-  TopicsHygieneRoute: typeof TopicsHygieneRoute
   TopicsIndexRoute: typeof TopicsIndexRoute
 }
 
 const TopicsRouteChildren: TopicsRouteChildren = {
   TopicsTopicIdRoute: TopicsTopicIdRoute,
-  TopicsHygieneRoute: TopicsHygieneRoute,
   TopicsIndexRoute: TopicsIndexRoute,
 }
 
