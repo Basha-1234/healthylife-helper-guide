@@ -1,4 +1,4 @@
-import { PhoneCall, ExternalLink, Heart } from "lucide-react";
+import { PhoneCall, ExternalLink } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 
 const RESOURCES = [

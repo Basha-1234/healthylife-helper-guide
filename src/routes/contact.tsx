@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Phone, Users, Mail, MapPin, PhoneCall, Heart } from "lucide-react";
+import { Phone, Users, MapPin, PhoneCall } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useUi } from "@/lib/ui-strings";
 
