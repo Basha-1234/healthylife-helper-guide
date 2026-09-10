@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Phone, Users, Mail, MapPin, PhoneCall, Heart } from "lucide-react";
+import { Phone, Users, MapPin, PhoneCall } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useUi } from "@/lib/ui-strings";
 
@@ -48,23 +48,9 @@ function ContactPage() {
           {ui.contactWhoHeading}
         </h2>
         <p className="mt-3 text-xl leading-relaxed text-foreground">{ui.contactWho}</p>
-        <p className="mt-4 inline-flex items-center gap-2 text-lg font-bold text-foreground">
-          <Heart className="size-5 text-accent-foreground" aria-hidden="true" />
-          {t.footer.credits}
-        </p>
       </section>
 
       <section className="mt-8 grid gap-5 sm:grid-cols-2">
-        <a
-          href="mailto:healthawareness@example.com"
-          className="flex min-h-32 flex-col justify-center rounded-4xl border-2 border-primary/30 bg-card p-6 text-center shadow-soft transition-transform hover:-translate-y-1"
-        >
-          <Mail className="mx-auto size-9 text-primary" aria-hidden="true" />
-          <span className="mt-2 text-xl font-extrabold text-foreground">{ui.emailUs}</span>
-          <span className="mt-1 break-all text-base font-semibold text-muted-foreground">
-            healthawareness@example.com
-          </span>
-        </a>
         <a
           href="tel:104"
           className="flex min-h-32 flex-col justify-center rounded-4xl border-2 border-primary/30 bg-card p-6 text-center shadow-soft transition-transform hover:-translate-y-1"
