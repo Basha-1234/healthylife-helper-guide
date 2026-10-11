@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Check, X, RotateCcw } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useUi } from "@/lib/ui-strings";
-import type { QuizQuestion } from "@/lib/content";
+import type { QuizDifficulty, QuizQuestion } from "@/lib/content";
 
 export function QuizBlock({ questions }: { questions: QuizQuestion[] }) {
   const { lang } = useLang();
@@ -13,14 +13,20 @@ export function QuizBlock({ questions }: { questions: QuizQuestion[] }) {
   const [picked, setPicked] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
+  const [difficulty, setDifficulty] = useState<QuizDifficulty | "all">("all");
 
-  const current = list[index];
+  const filteredList = useMemo(
+    () => list.filter((question) => difficulty === "all" || question.difficulty === difficulty),
+    [difficulty, list],
+  );
+  const current = filteredList[index];
 
   function reset() {
     setIndex(0);
     setPicked(null);
     setScore(0);
     setDone(false);
+    setDifficulty("all");
   }
 
   function choose(i: number) {
@@ -30,7 +36,7 @@ export function QuizBlock({ questions }: { questions: QuizQuestion[] }) {
   }
 
   function next() {
-    if (index + 1 >= list.length) {
+    if (index + 1 >= filteredList.length) {
       setDone(true);
       return;
     }
@@ -65,8 +71,36 @@ export function QuizBlock({ questions }: { questions: QuizQuestion[] }) {
 
   return (
     <div className="rounded-4xl border-2 border-border bg-card p-6 shadow-soft sm:p-8">
+      <div className="mb-5 flex flex-wrap gap-2" role="group" aria-label={ui.allDifficulties}>
+        {([
+          ["all", ui.allDifficulties],
+          ["easy", ui.easy],
+          ["medium", ui.medium],
+          ["challenging", ui.challenging],
+        ] as const).map(([level, label]) => (
+          <button
+            key={level}
+            type="button"
+            aria-pressed={difficulty === level}
+            onClick={() => {
+              setDifficulty(level);
+              setIndex(0);
+              setPicked(null);
+              setScore(0);
+              setDone(false);
+            }}
+            className={`min-h-11 rounded-full border-2 px-4 text-base font-bold transition-colors ${
+              difficulty === level
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border bg-card text-foreground hover:bg-secondary/50"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
       <p className="text-lg font-bold text-muted-foreground">
-        {ui.question} {index + 1} {ui.of} {list.length}
+        {ui.question} {index + 1} {ui.of} {filteredList.length}
       </p>
       <h3 className="mt-2 text-2xl font-extrabold leading-snug text-foreground">{current.q}</h3>
 
@@ -106,12 +140,13 @@ export function QuizBlock({ questions }: { questions: QuizQuestion[] }) {
           <p className="text-lg font-bold text-foreground">
             {picked === current.answer ? ui.correct : ui.wrong}
           </p>
+          {current.explanation ? <p className="w-full text-base leading-relaxed text-muted-foreground">{current.explanation}</p> : null}
           <button
             type="button"
             onClick={next}
             className="inline-flex min-h-14 items-center gap-2 rounded-full bg-primary px-6 text-lg font-bold text-primary-foreground shadow-lift transition-colors hover:bg-primary/90"
           >
-            {index + 1 >= list.length ? ui.seeResult : ui.nextQuestion}
+            {index + 1 >= filteredList.length ? ui.seeResult : ui.nextQuestion}
           </button>
         </div>
       ) : null}

@@ -1,6 +1,13 @@
 import type { CategoryId, LangCode } from "./i18n";
 
-export type QuizQuestion = { q: string; options: string[]; answer: number };
+export type QuizDifficulty = "easy" | "medium" | "challenging";
+export type QuizQuestion = {
+  q: string;
+  options: string[];
+  answer: number;
+  difficulty?: QuizDifficulty;
+  explanation?: string;
+};
 
 export type CategoryContent = {
   title: string;

@@ -14,6 +14,12 @@ export type UiStrings = {
   fact: string;
   printPoster: string;
   posterNote: string;
+  readTips: string;
+  readActions: string;
+  allDifficulties: string;
+  easy: string;
+  medium: string;
+  challenging: string;
   quizHeading: string;
   quizIntro: string;
   quizTopicQuestion: string;
@@ -62,6 +68,12 @@ const strings: Record<LangCode, UiStrings> = {
     fact: "Fact",
     printPoster: "Print or save poster (PDF)",
     posterNote: "Use the print button to save this page as a PDF poster for your wall.",
+    readTips: "Hear the tips",
+    readActions: "Hear the Do's and Don'ts",
+    allDifficulties: "All levels",
+    easy: "Easy",
+    medium: "Think it through",
+    challenging: "Challenge",
     quizHeading: "Health quiz",
     quizIntro: "Answer a few easy questions. No marks, no fear — just learning.",
     quizTopicQuestion: "Choose a topic",
@@ -110,6 +122,12 @@ const strings: Record<LangCode, UiStrings> = {
     fact: "सच",
     printPoster: "पोस्टर छापें या सेव करें (PDF)",
     posterNote: "प्रिंट बटन से इस पेज को PDF पोस्टर की तरह सेव करें और दीवार पर लगाएँ।",
+    readTips: "सलाह सुनें",
+    readActions: "क्या करें और क्या न करें, सुनें",
+    allDifficulties: "सभी स्तर",
+    easy: "आसान",
+    medium: "सोचकर जवाब दें",
+    challenging: "कठिन सवाल",
     quizHeading: "स्वास्थ्य सवाल-जवाब",
     quizIntro: "कुछ आसान सवालों के जवाब दें। कोई अंक नहीं, कोई डर नहीं — सिर्फ़ सीखना।",
     quizTopicQuestion: "विषय चुनें",
@@ -158,6 +176,12 @@ const strings: Record<LangCode, UiStrings> = {
     fact: "నిజం",
     printPoster: "పోస్టర్ ప్రింట్ / సేవ్ (PDF)",
     posterNote: "ప్రింట్ బటన్‌తో ఈ పేజీని PDF పోస్టర్‌గా సేవ్ చేసి గోడకు అంటించండి.",
+    readTips: "సూచనలు వినండి",
+    readActions: "చేయాల్సినవి, చేయకూడనివి వినండి",
+    allDifficulties: "అన్ని స్థాయిలు",
+    easy: "సులభం",
+    medium: "ఆలోచించి చెప్పండి",
+    challenging: "సవాలు",
     quizHeading: "ఆరోగ్య ప్రశ్నలు",
     quizIntro: "కొన్ని సులభమైన ప్రశ్నలకు సమాధానం చెప్పండి. మార్కులు లేవు, భయం లేదు — నేర్చుకోవడమే.",
     quizTopicQuestion: "అంశం ఎంచుకోండి",
