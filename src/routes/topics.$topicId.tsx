@@ -38,7 +38,9 @@ function TopicPage() {
   const ui = useUi(lang);
   const c = CONTENT[lang][topicId];
 
-  const speech = [c.title, c.story, ui.tipsTitle, ...c.tips].join(". ");
+  const speech = [c.title, c.story, ui.tipsTitle, ...c.tips, ui.dosTitle, ...c.dos, ui.dontsTitle, ...c.donts].join(". ");
+  const tipsSpeech = [c.title, ui.tipsTitle, ...c.tips].join(". ");
+  const actionsSpeech = [c.title, ui.dosTitle, ...c.dos, ui.dontsTitle, ...c.donts].join(". ");
 
   return (
     <main className="mx-auto max-w-4xl px-4 pb-8 pt-6">
@@ -80,7 +82,10 @@ function TopicPage() {
 
       {/* Tips */}
       <section className="mt-8">
-        <h2 className="text-2xl font-extrabold text-foreground">{ui.tipsTitle}</h2>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-2xl font-extrabold text-foreground">{ui.tipsTitle}</h2>
+          <SpeakButton text={tipsSpeech} label={ui.readTips} />
+        </div>
         <ul className="mt-4 grid gap-4">
           {c.tips.map((tip) => (
             <li
@@ -97,7 +102,10 @@ function TopicPage() {
       </section>
 
       {/* Do's and Don'ts */}
-      <section className="mt-8 grid gap-5 sm:grid-cols-2">
+      <section className="no-print mt-8">
+        <SpeakButton text={actionsSpeech} label={ui.readActions} />
+      </section>
+      <section className="mt-4 grid gap-5 sm:grid-cols-2">
         <div className="rounded-4xl border-2 border-primary/40 bg-secondary/40 p-6 shadow-soft">
           <h2 className="flex items-center gap-2 text-2xl font-extrabold text-foreground">
             <Check className="size-7 text-primary" aria-hidden="true" />

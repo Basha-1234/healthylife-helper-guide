@@ -3,7 +3,15 @@ import { Volume2, Square } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 
 /** Reads the given text aloud using the browser's speech synthesis. */
-export function SpeakButton({ text, className = "" }: { text: string; className?: string }) {
+export function SpeakButton({
+  text,
+  className = "",
+  label,
+}: {
+  text: string;
+  className?: string;
+  label?: string;
+}) {
   const { t, speechLocale } = useLang();
   const [speaking, setSpeaking] = useState(false);
   const [supported, setSupported] = useState(false);
@@ -46,7 +54,7 @@ export function SpeakButton({ text, className = "" }: { text: string; className?
       ) : (
         <Volume2 className="size-5" aria-hidden="true" />
       )}
-      {speaking ? t.stopReading : t.readAloud}
+      {speaking ? t.stopReading : label ?? t.readAloud}
     </button>
   );
 }
